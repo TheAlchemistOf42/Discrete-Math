@@ -12,6 +12,7 @@ Description: The game program.
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <functional>
 
 void hPlayer(){
 
@@ -36,7 +37,7 @@ std::vector<unsigned> startGame(){
         if(choice < 10){
             for(unsigned i = 0; i < choice; ++i){
                 std::cout << "Please enter a number for stack greater than 0 " << i + 1 << ": ";
-                cin >> num;
+                std::cin >> num;
                 if(num == 0){
                     i--;
                     continue;
@@ -63,8 +64,9 @@ void displayStacks(const std::vector<unsigned> & sticks){
     return;
 }
 
-int nimSum(const std::vecotr<unsigned> & sticks){
+int nimSum(const std::vector<unsigned> & sticks){
 
+    return 0;
 }
 
 bool endGame(const std::vector<unsigned> & sticks){
@@ -75,6 +77,7 @@ int main(){
     std::vector<unsigned> sticks;
     std::string choice;
     bool loop = true;
+
     while(loop){
 
 
