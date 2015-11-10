@@ -14,13 +14,47 @@ Description: The game program.
 #include <algorithm>
 #include <functional>
 
-void hPlayer(){
+unsigned int nimSum(const std::vector<unsigned> & sticks){
+    unsigned n = 0;
+    for(unsigned x : sticks)
+        n ^= x;
+    return n;
+}
 
+void hPlayer(std::vector<unsigned> & sticks){
+    unsigned stack;
+    std::cout << "Please select a stack to remove sticks from (1 - " << sticks.size()
+              << ") : ";
+    std::cin >> stack;
+    while(stack < 1 || stack > sticks.size()){
+        std::cout << "Please select a valid stack (1 - " << sticks.size() << ") : ";
+        std::cin >> stack;
+    }
+    unsigned num;
+    std::cout << "Please select a number of sticks to remove (1 - " << sticks[stack]
+              << ") : ";
+    std::cin >> num;
+    while(num < 1 || num > sticks[stack]){
+        std::cout << "Please select a valid number of sticks to remove (1 - " << sticks[stack] << ") : ";
+        std::cin >> num;
+    }
+    std::cout << "Removed " << num << " from stack " << stack << '\n';
+    sticks[stack] -= num;
     return;
 }
 
-void cPlayer(){
+void cPlayer(std::vector<unsigned> & sticks){
+    unsigned remove = nimSum(sticks);
+    if(remove == 0){
 
+    } else {
+        for(unsigned i = 0; i < sticks.size(); ++i){
+            if((sticks[i] & remove) == remove){
+                sticks[i] -= remove;
+                break;
+            }
+        }
+    }
     return;
 }
 
@@ -34,7 +68,7 @@ std::vector<unsigned> startGame(){
         std::cout << "How many stacks? (Max 10) : ";
         std::cin >> choice;
         unsigned num;
-        if(choice < 10){
+        if(choice <= 10){
             for(unsigned i = 0; i < choice; ++i){
                 std::cout << "Please enter a number for stack greater than 0 " << i + 1 << ": ";
                 std::cin >> num;
@@ -64,10 +98,7 @@ void displayStacks(const std::vector<unsigned> & sticks){
     return;
 }
 
-int nimSum(const std::vector<unsigned> & sticks){
 
-    return 0;
-}
 
 bool endGame(const std::vector<unsigned> & sticks){
     return (std::accumulate(begin(sticks), end(sticks), 0) == 0);
@@ -78,12 +109,7 @@ int main(){
     std::string choice;
     bool loop = true;
 
-    while(loop){
 
-
-
-        std::cout << "Would you like to play a game? (Y/N)";
-    }
 
 
 

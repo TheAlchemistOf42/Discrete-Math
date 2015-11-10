@@ -7,3 +7,11 @@ Prof:		Dr. Daly
 Date:		9/15/2015
 Description: A header containing the game of Nim functions.
 */
+
+#ifndef __NIM_H_
+#define __NIM_H_
+
+
+
+
+#endif
