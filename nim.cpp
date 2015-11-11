@@ -22,16 +22,24 @@ void hPlayer(std::vector<unsigned> & sticks){
     std::cout << "Please select a stack to remove sticks from (1 - " << sticks.size()
               << ") : ";
     std::cin >> stack;
+    std::cin.clear();
+    std::cin.ignore(10000,'\n');
     while(stack < 1 || stack > sticks.size() || sticks[stack - 1] == 0){
         std::cout << "Please select a valid stack (1 - " << sticks.size() << ") : ";
         std::cin >> stack;
+        std::cin.clear();
+        std::cin.ignore(10000,'\n');
     }
     std::cout << "Please select a number of sticks to remove (1 - " << sticks[stack - 1]
-              << ") : ";
+              << ") from stack " << stack << ": ";
     std::cin >> num;
+    std::cin.clear();
+    std::cin.ignore(10000,'\n');
     while(num < 1 || num > sticks[stack - 1]){
         std::cout << "Please select a valid number of sticks to remove (1 - " << sticks[stack - 1] << ") : ";
         std::cin >> num;
+        std::cin.clear();
+        std::cin.ignore(10000,'\n');
     }
     std::cout << "Removed " << num << " from stack " << stack << '\n';
     sticks[stack - 1] -= num;
@@ -54,19 +62,29 @@ std::vector<unsigned> initGame(){
     std::cout << "Do you want to play a standard or custom game?\n1 - Standard (Default)\n"
               << "2 - Custom\n? ";
     std::cin >> choice;
+    std::cin.clear();
+    std::cin.ignore(10000,'\n');
     if(choice == 2){
         std::cout << "How many stacks? (Max 10) : ";
         std::cin >> choice;
+        std::cin.clear();
+        std::cin.ignore(10000,'\n');
         while(choice > 10 || choice < 1){
             std::cout << "Please select a valid number of stacks (1 - 10) : ";
             std::cin >> choice;
+            std::cin.clear();
+            std::cin.ignore(10000,'\n');
         }
         for(unsigned i = 0; i < choice; ++i){
             std::cout << "Please enter a number (1 - 32) for stack " << i + 1 << ": ";
             std::cin >> num;
+            std::cin.clear();
+            std::cin.ignore(10000,'\n');
             while(num < 1 || num > 32 ){
                 std::cout << "Please enter a valid number (1 - 32) for stack " << i + 1 << ": ";
                 std::cin >> num;
+                std::cin.clear();
+                std::cin.ignore(10000,'\n');
             }
             game.push_back(num);
         }
