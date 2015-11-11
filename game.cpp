@@ -14,17 +14,25 @@ Description: The game program.
 #include "nim.h"
 
 void cPlayer(std::vector<unsigned> & sticks){
-    unsigned stack, remove = nimSum(sticks);
+    unsigned stack = 0, remove = nimSum(sticks);
     if(remove == 0){
-
+        // random remove
+        // stack must contain at least one
+        // must remove between 1 and stack[i] inclusive
+        // sticks
     } else {
         for(unsigned i = 0; i < sticks.size(); ++i){
             if((sticks[i] & remove) == remove){
                 sticks[i] -= remove;
+                stack = i + 1;
                 break;
             }
         }
+        if(stack == 0){
+            // It didn't remove anything
+        }
     }
+    std::cout << "Removed " << remove << " from stack " << stack << '\n';
     return;
 }
 
@@ -36,18 +44,19 @@ int main(){
     displayStacks(sticks);
     hPlayer(sticks);
     displayStacks(sticks);
-    hPlayer(sticks);
+    cPlayer(sticks);
     displayStacks(sticks);
     hPlayer(sticks);
     displayStacks(sticks);
-    hPlayer(sticks);
+    cPlayer(sticks);
     displayStacks(sticks);
-    hPlayer(sticks);
-    displayStacks(sticks);
+    cPlayer(sticks);
     std::cout << endGame(sticks);
 /*
 
     while(loop){
+        sticks = initGame();
+        // Select Player 1 randomly
         // PLayer 1
         std::cout << "Player 1 turn: \n";
         move
