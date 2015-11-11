@@ -18,6 +18,7 @@ Description: A header containing the game of Nim functions.
 unsigned int nimSum(const std::vector<unsigned> & sticks);
 void hPlayer(std::vector<unsigned> & sticks);
 void displayStacks(const std::vector<unsigned> & sticks);
+std::vector<unsigned> initGame();
 bool endGame(const std::vector<unsigned> & sticks);
 
 #endif

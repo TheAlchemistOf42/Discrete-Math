@@ -10,8 +10,6 @@ Description: The game program.
 
 #include <iostream>
 #include <vector>
-#include <iterator>
-#include <algorithm>
 #include <functional>
 #include "nim.h"
 
@@ -30,42 +28,11 @@ void cPlayer(std::vector<unsigned> & sticks){
     return;
 }
 
-std::vector<unsigned> startGame(){
-    std::vector<unsigned> game;
-    unsigned choice, num;
-    std::cout << "Do you want to play a standard or custom game?\n1 - Standard (Default)\n"
-              << "2 - Custom\n? ";
-    std::cin >> choice;
-    if(choice == 2){
-        std::cout << "How many stacks? (Max 10) : ";
-        std::cin >> choice;
-        while(choice > 10 || choice < 1){
-            std::cout << "Please select a valid number of stacks (1 - 10) : ";
-            std::cin >> choice;
-        }
-        for(unsigned i = 0; i < choice; ++i){
-            std::cout << "Please enter a number (1 - 32) for stack " << i + 1 << ": ";
-            std::cin >> num;
-            while(num < 1 || num > 32 ){
-                std::cout << "Please enter a valid number (1 - 32) for stack " << i + 1 << ": ";
-                std::cin >> num;
-            }
-            game.push_back(num);
-        }
-    } else {
-        game.push_back(1);
-        game.push_back(3);
-        game.push_back(5);
-        game.push_back(7);
-    }
-    return std::move(game);
-}
-
 int main(){
     std::vector<unsigned> sticks;
     std::string choice;
     // bool loop = true;
-    sticks = startGame();
+    sticks = initGame();
     displayStacks(sticks);
     hPlayer(sticks);
     displayStacks(sticks);
@@ -78,9 +45,25 @@ int main(){
     hPlayer(sticks);
     displayStacks(sticks);
     std::cout << endGame(sticks);
+/*
 
+    while(loop){
+        // PLayer 1
+        std::cout << "Player 1 turn: \n";
+        move
+        if(endGame){
+            std::cout << "Player 1 loses: \n"
+            break;
+        }
+        // PLayer 1
+        std::cout << "Player 2 turn: \n";
+        move
+        if(endGame){
+            std::cout << "Player 2 loses: \n"
+            break;
+        }
+    }
 
-
-
+*/
     return 0;
 }
