@@ -4,7 +4,7 @@ Email:		alcrutcher1s@semo.edu
 College:	Southeast Missouri State University
 Course:		MA138-01 Discrete Mathematics I
 Prof:		Dr. Daly
-Date:		9/15/2015
+Date:		11/25/2015
 Description: A header containing the game of Nim functions.
 */
 
@@ -14,6 +14,8 @@ Description: A header containing the game of Nim functions.
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <random>
+#include <ctime>
 
 unsigned int nimSum(const std::vector<unsigned> & sticks);
 void hPlayer(std::vector<unsigned> & sticks);
