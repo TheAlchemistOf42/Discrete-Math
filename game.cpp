@@ -15,7 +15,7 @@ Description: The game program.
 #include <ctime>
 #include "nim.h"
 
-void cPlayer(std::vector<unsigned> & sticks, std::uniform_int_distribution<unsigned> r, std::default_random_engine eng){
+void cPlayer(std::vector<unsigned> & sticks, const std::uniform_int_distribution<unsigned> & r, const std::default_random_engine & eng){
 
     unsigned stack = 0, remove = nimSum(sticks);
     if(remove == 0){
