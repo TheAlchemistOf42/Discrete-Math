@@ -15,8 +15,10 @@ Description: The game program.
 #include <ctime>
 #include "nim.h"
 
-void cPlayer(std::vector<unsigned> & sticks, const std::uniform_int_distribution<unsigned> & r, const std::default_random_engine & eng){
-
+void cPlayer(std::vector<unsigned> & sticks){
+    static std::default_random_engine eng;
+    static std::uniform_int_distribution<int> r(0);
+    eng.seed(time(nullptr));
     unsigned stack = 0, remove = nimSum(sticks);
     if(remove == 0){
         stack = (r(eng) % sticks.size()) + 1;
@@ -33,18 +35,19 @@ void cPlayer(std::vector<unsigned> & sticks, const std::uniform_int_distribution
             }
         }
         if(stack == 0){
+            unsigned xMax = 0;
             for(unsigned i = 0; i < sticks.size(); ++i){
-                if((sticks[i] & remove) == remove){
-                    sticks[i] -= remove;
-                    stack = i + 1;
-                    break;
+                if(sticks[i] != 0){
+                    for(unsigned j = 0; j < 6; ++j){
+                        if((sticks[i] & 1<<j) != 0  && (remove & 1<<j) != 0 && xMax < 1<<j){
+                            xMax = 1<<j;
+                            stack = i + 1;
+                        }
+                    }
                 }
             }
-            // It didn't remove anything
-            unsigned max = *std::max_element(begin(sticks), end(sticks));
-            if(remove > max){
-                remove = max - (remove ^ max);
-            }
+            remove = xMax - (remove ^ xMax);
+            sticks[stack - 1] -= remove;
         }
     }
     std::cout << "Removed " << remove << " from stack " << stack << '\n';
@@ -54,46 +57,50 @@ void cPlayer(std::vector<unsigned> & sticks, const std::uniform_int_distribution
 int main(){
     std::default_random_engine eng;
     eng.seed(time(nullptr));
-    std::uniform_int_distribution<unsigned> d(1);
+    std::uniform_int_distribution<int> d(0);
     std::vector<unsigned> sticks;
+    std::pair<std::string, std::function<void(std::vector<unsigned> &)>> hum;
+    std::pair<std::string, std::function<void(std::vector<unsigned> &)>> com;
     std::string choice;
-    bool play = true;
-    /*
-    sticks = initGame();
-    displayStacks(sticks);
-    hPlayer(sticks);
-    displayStacks(sticks);
-    cPlayer(sticks);
-    displayStacks(sticks);
-    hPlayer(sticks);
-    displayStacks(sticks);
-    cPlayer(sticks);
-    displayStacks(sticks);
-    cPlayer(sticks);
-    std::cout << endGame(sticks);
-    */
+    bool play = true, hfirst;
+    std::cout << "Please enter your name : ";
+    std::cin >> choice;
+    std::cin.clear();
+    std::cin.ignore(10000,'\n');
+    // Initialize Players
+    hum.first = choice;
+    com.first = "Comp";
+    hum.second = hPlayer;
+    com.second = cPlayer;
     while(play){
         sticks = initGame();
-        // Select Player 1 randomly
+        hfirst = true;
+        // hfirst = (d(eng) % 2 == 0);
         displayStacks(sticks);
         while(true){
             // PLayer 1
-            std::cout << "Player 1 turn: \n";
+            std::cout << "Player 1 ( " << (hfirst ? hum.first : com.first ) << " ) turn: \n";
             hPlayer(sticks);
+            // (hfirst ? hum.second : com.second)(sticks);
             displayStacks(sticks);
             if(endGame(sticks)){
-                std::cout << "Player 1 loses: \n";
+                std::cout << "Player 1 ( " << (hfirst ? hum.first : com.first ) << " ) loses: \n";
                 break;
             }
             // PLayer 2
-            std::cout << "Player 2 turn: \n";
-            cPlayer(sticks, d, eng);
+            std::cout << "Player 2 ( " << (hfirst ? com.first : hum.first) << " ) turn: \n";
+            cPlayer(sticks);
+            // (hfirst ? com.second : hum.second)(sticks);
             displayStacks(sticks);
             if(endGame(sticks)){
-                std::cout << "Player 2 loses: \n";
+                std::cout << "Player 2 ( " << (hfirst ? com.first : hum.first) << " ) loses: \n";
                 break;
             }
         }
+        std::cout << "Do you want to play again? (y/n) : ";
+        std::cin >> choice;
+        if(choice != "y")
+            break;
     }
     return 0;
 }
