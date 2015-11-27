@@ -21,11 +21,14 @@ void cPlayer(std::vector<unsigned> & sticks){
     eng.seed(time(nullptr));
     unsigned stack = 0, remove = nimSum(sticks);
     if(remove == 0){
+        // No for sure winning move, remove 1 randomly
         stack = (r(eng) % sticks.size()) + 1;
         while(sticks[stack - 1] == 0)
             stack = (r(eng) % sticks.size()) + 1;
         remove = 1;
         sticks[stack - 1] -= remove;
+    } else if(*std::max_element(sticks.begin(), sticks.end()) == remove){
+        // Need to check if it is the only stack, remove all but one
     } else {
         for(unsigned i = 0; i < sticks.size(); ++i){
             if((sticks[i] & remove) == remove){
@@ -38,7 +41,7 @@ void cPlayer(std::vector<unsigned> & sticks){
             unsigned xMax = 0;
             for(unsigned i = 0; i < sticks.size(); ++i){
                 if(sticks[i] != 0){
-                    for(unsigned j = 0; j < 6; ++j){
+                    for(unsigned j = 0; j <= 5; ++j){
                         if((sticks[i] & 1<<j) != 0  && (remove & 1<<j) != 0 && xMax < 1<<j){
                             xMax = 1<<j;
                             stack = i + 1;
@@ -76,22 +79,21 @@ int main(){
         sticks = initGame();
         hfirst = true;
         // hfirst = (d(eng) % 2 == 0);
-        displayStacks(sticks);
         while(true){
             // PLayer 1
             std::cout << "Player 1 ( " << (hfirst ? hum.first : com.first ) << " ) turn: \n";
+            displayStacks(sticks);
             hPlayer(sticks);
             // (hfirst ? hum.second : com.second)(sticks);
-            displayStacks(sticks);
             if(endGame(sticks)){
                 std::cout << "Player 1 ( " << (hfirst ? hum.first : com.first ) << " ) loses: \n";
                 break;
             }
             // PLayer 2
             std::cout << "Player 2 ( " << (hfirst ? com.first : hum.first) << " ) turn: \n";
+            displayStacks(sticks);
             cPlayer(sticks);
             // (hfirst ? com.second : hum.second)(sticks);
-            displayStacks(sticks);
             if(endGame(sticks)){
                 std::cout << "Player 2 ( " << (hfirst ? com.first : hum.first) << " ) loses: \n";
                 break;
