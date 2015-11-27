@@ -46,6 +46,75 @@ void hPlayer(std::vector<unsigned> & sticks){
     return;
 }
 
+void cPlayer(std::vector<unsigned> & sticks){
+    static std::default_random_engine eng;
+    static std::uniform_int_distribution<int> r(0);
+    eng.seed(time(nullptr));
+    unsigned stack = 0, remove = nimSum(sticks), ones = 0, non = 0;
+    for(unsigned a : sticks){
+        if(a == 1)
+            ones++;
+        else if(a > 1)
+            non++;
+    }
+    if(non == 1){
+        if(ones % 2 == 0){
+            // remove all but one from non one
+            for(unsigned i = 0; i < sticks.size(); ++i){
+                if(sticks[i] > 1){
+                    remove = sticks[i] - 1;
+                    sticks[i] -= remove;
+                    stack = i + 1;
+                    break;
+                }
+            }
+        } else {
+            // Remove all
+            for(unsigned i = 0; i < sticks.size(); ++i){
+                if(sticks[i] > 1){
+                    remove = sticks[i];
+                    sticks[i] -= remove;
+                    stack = i + 1;
+                    break;
+                }
+            }
+        }
+    } else {
+        if(remove == 0){
+            // No for sure winning move, remove 1 randomly
+            stack = (r(eng) % sticks.size()) + 1;
+            while(sticks[stack - 1] == 0)
+                stack = (r(eng) % sticks.size()) + 1;
+            remove = 1;
+            sticks[stack - 1] -= remove;
+        } else {
+            for(unsigned i = 0; i < sticks.size(); ++i){
+                if((sticks[i] & remove) == remove){
+                    sticks[i] -= remove;
+                    stack = i + 1;
+                    break;
+                }
+            }
+            if(stack == 0){
+                unsigned xMax = 0;
+                for(unsigned i = 0; i < sticks.size(); ++i){
+                    if(sticks[i] != 0){
+                        if((sticks[i] & remove) > xMax){
+                            xMax = sticks[i] & remove;
+                            stack = i + 1;
+                        }
+                    }
+                }
+                // remove = sticks[stack - 1] - (xMax ^ remove);
+                remove = xMax - (xMax ^ remove);
+                sticks[stack - 1] -= remove;
+            }
+        }
+    }
+    std::cout << "Removed " << remove << " from stack " << stack << '\n';
+    return;
+}
+
 void displayStacks(const std::vector<unsigned> & sticks){
     for(unsigned i = 0; i < sticks.size(); ++i){
         std::cout << "Stack " << i + 1 << ": ";
@@ -65,12 +134,12 @@ std::vector<unsigned> initGame(){
     std::cin.clear();
     std::cin.ignore(10000,'\n');
     if(choice == 2){
-        std::cout << "How many stacks? (Max 10) : ";
+        std::cout << "How many stacks? (3 - 10) : ";
         std::cin >> choice;
         std::cin.clear();
         std::cin.ignore(10000,'\n');
-        while(choice > 10 || choice < 1){
-            std::cout << "Please select a valid number of stacks (1 - 10) : ";
+        while(choice > 10 || choice < 3){
+            std::cout << "Please select a valid number of stacks (3 - 10) : ";
             std::cin >> choice;
             std::cin.clear();
             std::cin.ignore(10000,'\n');
