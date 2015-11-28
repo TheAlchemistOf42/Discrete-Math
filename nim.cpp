@@ -4,7 +4,7 @@ Email:		alcrutcher1s@semo.edu
 College:	Southeast Missouri State University
 Course:		MA138-01 Discrete Mathematics I
 Prof:		Dr. Daly
-Date:		11/10/2015
+Date:		11/27/2015
 Description: The implementation file
 */
 
@@ -134,12 +134,12 @@ std::vector<unsigned> initGame(){
     std::cin.clear();
     std::cin.ignore(10000,'\n');
     if(choice == 2){
-        std::cout << "How many stacks? (3 - 10) : ";
+        std::cout << "How many stacks? (3 - 9) : ";
         std::cin >> choice;
         std::cin.clear();
         std::cin.ignore(10000,'\n');
-        while(choice > 10 || choice < 3){
-            std::cout << "Please select a valid number of stacks (3 - 10) : ";
+        while(choice > 9 || choice < 3){
+            std::cout << "Please select a valid number of stacks (3 - 9) : ";
             std::cin >> choice;
             std::cin.clear();
             std::cin.ignore(10000,'\n');
