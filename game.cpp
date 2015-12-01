@@ -24,14 +24,14 @@ int main(int argc, char** argv){
     std::pair<std::string, std::function<void(std::vector<unsigned> &)>> com("Comp", cPlayer);
     unsigned score[2] {0,0};
     std::string choice;
-    bool play = true, hfirst;
+    bool hfirst;
     std::cout << "Please enter your name : ";
     std::cin >> choice;
     std::cin.clear();
     std::cin.ignore(10000,'\n');
     hum.first = choice;
     hum.second = hPlayer;
-    while(play){
+    while(true){
         sticks = initGame();
         hfirst = (d(eng) % 2 == 0);
         while(true){
