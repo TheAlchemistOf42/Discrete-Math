@@ -97,7 +97,6 @@ void cPlayer(std::vector<unsigned> & sticks){
                     }
                 }
             }
-            // remove = sticks[stack - 1] - (xMax ^ remove);
             remove = xMax - (xMax ^ remove);
             sticks[stack - 1] -= remove;
         }
