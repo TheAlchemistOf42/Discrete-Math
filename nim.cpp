@@ -88,27 +88,18 @@ void cPlayer(std::vector<unsigned> & sticks){
             remove = 1;
             sticks[stack - 1] -= remove;
         } else {
+            unsigned xMax = 0;
             for(unsigned i = 0; i < sticks.size(); ++i){
-                if((sticks[i] & remove) == remove){
-                    sticks[i] -= remove;
-                    stack = i + 1;
-                    break;
-                }
-            }
-            if(stack == 0){
-                unsigned xMax = 0;
-                for(unsigned i = 0; i < sticks.size(); ++i){
-                    if(sticks[i] != 0){
-                        if((sticks[i] & remove) > xMax){
-                            xMax = sticks[i] & remove;
-                            stack = i + 1;
-                        }
+                if(sticks[i] != 0){
+                    if((sticks[i] & remove) > xMax){
+                        xMax = sticks[i] & remove;
+                        stack = i + 1;
                     }
                 }
-                // remove = sticks[stack - 1] - (xMax ^ remove);
-                remove = xMax - (xMax ^ remove);
-                sticks[stack - 1] -= remove;
             }
+            // remove = sticks[stack - 1] - (xMax ^ remove);
+            remove = xMax - (xMax ^ remove);
+            sticks[stack - 1] -= remove;
         }
     }
     std::cout << "Removed " << remove << " from stack " << stack << '\n';
