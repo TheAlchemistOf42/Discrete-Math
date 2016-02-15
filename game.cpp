@@ -13,7 +13,7 @@ Description: The game program.
 #include <functional>
 #include <random>
 #include <ctime>
-#include "nim.h"
+#include "nim.hpp"
 
 int main(int argc, char** argv){
     std::default_random_engine eng;
@@ -26,9 +26,7 @@ int main(int argc, char** argv){
     std::string choice;
     bool hfirst;
     std::cout << "Please enter your name : ";
-    std::cin >> choice;
-    std::cin.clear();
-    std::cin.ignore(10000,'\n');
+    input(choice);
     hum.first = choice;
     hum.second = hPlayer;
     while(true){
@@ -58,7 +56,7 @@ int main(int argc, char** argv){
         }
         std::cout << hum.first << " : " << score[0] << '\t' << com.first << " : " << score[1] << '\n';
         std::cout << "Do you want to play again? (y/n) : ";
-        std::cin >> choice;
+        input(choice);
         if(choice != "y")
             break;
     }
